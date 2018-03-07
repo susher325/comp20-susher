@@ -14,7 +14,11 @@
 
 	<script>
 
+		var username = "oRF2MrZv83";
+		var minDist;
 		var myPos;
+		var myMarker;
+		var infowindow;
 
 		function initMap() {
 			//initiate map		
@@ -77,10 +81,77 @@
 						data = parsedInfo.passengers;
 						userIcon='passenger.png';
 					}
+
+					//deal with user data one user at a time
+					for (i=0; i < data.length; i++) {
+						var userLatLng = {
+							lat: data[i].lat,
+							lng: data[i].lng
+						}
+						userUsername = data[i].username;
+						var dist = calcDistance(userLatLng);
+						//find closest passenger to you and update accordingly
+						if (i==0){
+							minDist=dist;
+							updateMyInfo();
+						} else if (minDist > dist){
+							minDist = dist;
+							updateMyInfo();
+						}
+						placeOnMap(userLatLng, userUsername, userIcon, dist);
+					}
 				}
+			}
 
 			//Step 4: Trigger HTTP Request
 			request.send("username=" + username + "&lat=" + myPos.lat + "&lng=" + myPos.lng);
+		}
+
+		function placeOnMap(userLatLng, user, userIcon, dist){
+			//create new marker for user being placed
+			var userMarker = new google.maps.Marker({
+				position: userLatLng,
+				map: map,
+				icon: userIcon,
+				title: "Username: " + user + "<br/>" + "Distance: " + dist + " miles"
+			});
+
+			google.maps.event.addListener(userMarker,'click', function(){
+				infowindow.setContent(userMarker.title);
+				infowindow.open(map,userMarker);
+			});
+
+		}
+
+		function calcDistance(userLatLng){
+
+			Number.prototype.toRad = function() {
+   				return this * Math.PI / 180;
+			}
+
+			var lat1 = userLatLng.lat;
+			var lat2 = myPos.lat;
+			var lng1 = userLatLng.lng;
+			var lng2 = myPos.lng;
+
+			var radius = 3959 //earth radius in miles
+			var x1 = lat2-lat1;
+			var dlat = x1.toRad();
+			var x2 = lng2-lng1;
+			var dlng = x2.toRad();
+
+			//Haversine Formula
+			var a = Math.sin(dlat/2) * Math.sin(dlat/2) + 
+                Math.cos(lat1.toRad()) * Math.cos(lat2.toRad()) * 
+                Math.sin(dlng/2) * Math.sin(dlng/2); 
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+			var d = (radius * c).toFixed(2);	
+			return d;
+		}
+
+		function updateMyInfo(){
+			myMarker.title = "Username: " + username + "<br/>" 
+			+ "Closest Passenger: " + minDist + " miles";
 		}
 	</script>
 </body>
