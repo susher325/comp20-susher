@@ -5,12 +5,13 @@
 
 body {
     height: 100%;
+    background-image: url('background.svg');
 }
 
 h1 {
-	font-size: 40px;
 	color: white;
-	padding: 30px;
+	font-size: 40px;
+	padding: 0px;
 	margin: 30px;
 	text-align: center;
 }

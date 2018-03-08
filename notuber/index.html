@@ -9,6 +9,7 @@
 </head>
 
 <body onload="initMap()">
+
 	<h1> NOT UBER </h1>
 	<div id="map"></div>
 
@@ -72,14 +73,14 @@
 					//Step 5: Work with response data
 					information = request.responseText;
 					parsedInfo = JSON.parse(information);
-
+					
 					//determine if working with vehicle or passenger
-					if (typeof parsedInfo.passengers === undefined){
-						data = parsedInfo.vehicles;
-						userIcon='carIcon.png';
-					} else {
+					if (typeof parsedInfo.passengers === "object"){
 						data = parsedInfo.passengers;
 						userIcon='passenger.png';
+					} else if (typeof parsedInfo.vehicles === "object"){
+						data = parsedInfo.vehicles;
+						userIcon='carIcon.png';
 					}
 
 					//deal with user data one user at a time
@@ -154,5 +155,6 @@
 			+ "Closest Passenger: " + minDist + " miles";
 		}
 	</script>
+	
 </body>
 </html>
