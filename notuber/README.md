@@ -1,5 +1,7 @@
 README
+
 Sam Usher
+
 3/7/18
 
 All elements of the assignment were implemented correctly.

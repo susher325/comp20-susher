@@ -102,6 +102,9 @@
 						placeOnMap(userLatLng, userUsername, userIcon, dist);
 					}
 				}
+				else if (request.readyState == 4 && request.status != 200) {
+					alert("Issue with readyState");
+				}
 			}
 
 			//Step 4: Trigger HTTP Request
