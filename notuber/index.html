@@ -15,11 +15,7 @@
 
 	<script>
 
-		var username = "oRF2MrZv83";
-		var minDist;
-		var myPos;
-		var myMarker;
-		var infowindow;
+		var myUsername = "oRF2MrZv83";
 
 		function initMap() {
 			//initiate map		
@@ -44,7 +40,7 @@
 			myMarker = new google.maps.Marker({
 				position: myPos,
 				icon: 'myIcon.png',
-				title: 	"Username: " + username + "<br/> Calculating distance to closest passenger..."
+				title: 	"Username: " + myUsername + "<br/> Calculating distance to closest passenger..."
 			});
 
 			infowindow = new google.maps.InfoWindow();
@@ -108,16 +104,16 @@
 			}
 
 			//Step 4: Trigger HTTP Request
-			request.send("username=" + username + "&lat=" + myPos.lat + "&lng=" + myPos.lng);
+			request.send("username=" + myUsername + "&lat=" + myPos.lat + "&lng=" + myPos.lng);
 		}
 
-		function placeOnMap(userLatLng, user, userIcon, dist){
+		function placeOnMap(userLatLng, userUsername, userIcon, dist){
 			//create new marker for user being placed
 			var userMarker = new google.maps.Marker({
 				position: userLatLng,
 				map: map,
 				icon: userIcon,
-				title: "Username: " + user + "<br/>" + "Distance: " + dist + " miles"
+				title: "Username: " + userUsername + "<br/>" + "Distance: " + dist + " miles"
 			});
 
 			google.maps.event.addListener(userMarker,'click', function(){
@@ -154,8 +150,11 @@
 		}
 
 		function updateMyInfo(){
-			myMarker.title = "Username: " + username + "<br/>" 
-			+ "Closest Passenger: " + minDist + " miles";
+			if (userIcon=='passenger.png'){
+				myMarker.title = "Username: " + myUsername + "<br/>" + "Closest Passenger: " + minDist + " miles";
+			} else if (userIcon=='carIcon.png'){
+				myMarker.title = "Username: " + myUsername + "<br/>" + "Closest Vehicle: " + minDist + " miles";
+			}
 		}
 	</script>
 	
