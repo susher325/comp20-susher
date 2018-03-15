@@ -11,10 +11,10 @@
         var output;
         $(document).keypress(function(logInfo){
             if (logInfo.which == 13) {
-                message = document.getElementById("msg").value;
+                message = $("#msg").val();
                 localStorage[new Date()] = message;
-                document.getElementById("msg").value=""; 
-                theLog = document.getElementById("log");
+                $("#msg").val(""); 
+                theLog = $("#log")[0];
                 output="";
                 for (key in localStorage) {
                     if (localStorage.hasOwnProperty(key)){
