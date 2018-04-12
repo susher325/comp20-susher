@@ -59,7 +59,7 @@
 			request = new XMLHttpRequest();
 
 			//Step 2: Set up an HTTP response
-			request.open("POST", "https://jordan-marsh.herokuapp.com/rides", true);
+			request.open("POST", "https://hidden-mountain-20445.herokuapp.com/rides", true);
 			request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
 			//Step 3: Set up to handle the HTTP response
@@ -67,6 +67,7 @@
 				if (request.readyState == 4 && request.status == 200) {
 
 					//Step 5: Work with response data
+					console.log("parsing data");
 					information = request.responseText;
 					parsedInfo = JSON.parse(information);
 					
@@ -75,6 +76,7 @@
 						data = parsedInfo.passengers;
 						userIcon='passenger.png';
 					} else if (typeof parsedInfo.vehicles === "object"){
+						console.log("it's a vehicle");
 						data = parsedInfo.vehicles;
 						userIcon='carIcon.png';
 					}
