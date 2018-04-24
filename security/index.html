@@ -4,14 +4,54 @@
 <head>
 	<title>Security and Privacy Assessment</title>
 	<meta charset="utf-8"/>
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 	<h1>Security and Privacy Assessment</h1>
 	<h3> Introduction </h3>
+		<p> Fast-Gorge-76938 is an application created by Sabrina Miller as a part of Assignments 2 and 3 for COMP20. The application is a ride sharing service called "Not Uber" that allows users to see the location of vehicles or passengers. Thhis includes both a server as well as a front end user interface. I have been hired hired to do a security and privacy assessment on this application, and find at minimum 3 vulnerabilities in this product. </p>
 	<h3> Methodology </h3>
+		<p> I started my assessment by attempting to perform "black box" attacks, performing searching for vulnerabilities blingly. Then, I read through the source code of the application to better understand how the application worked, looking both for oppurtunities for hacking as well as bad coding practice. Finally, I attmpted to perform hacks again with the knowledge of how the source code worked. </p>
 	<h3> Abstract of Findings </h3>
+		<p> There are three main security findings that were identified in this application. First, Cross Origin Access is always open. Although Cross Origin Access is needed for the user interface of the website to access the information from the server, by allowing unrestricted access to the server, this makes the data very vulnerable. Second, sensitive data is exposed within the app. Specifically, the usernames are hardcoded in the ap, which could allow hackers to easily access and steal usernames and other information about consumers. Finally, certain features of the app lack user input validation. By not validating user input, hackers could send malicious information or bugs into the database, corrupting the server. </p>
 	<h3> Issues Found </h3>
+		<ol> 
+			<div id="issue">
+			<li>Cross Origin Access is always open </li>
+				<ul>
+					<li>Location: Server - index.js </li>
+					<li>Severity of Issue: High </li>
+					<li>Description of Issue: In the header of this application, the developer enabled cross origin resource sharing (CORS) for all third party websites. This is a very big security risk because that allow anyone to gain access to the applications server and database, and therefore, all the data within the app.</li>
+					<li>Proof of Vulnerability: <br/> <img src="CORSproof.png" alt="CORS Proof"></li>
+					<li>Resolution: Change CORS access to only be allowed for specific third party websites, specifically the interface designed for Assignment 2 </li>
+				</ul>
+			</div>
+			<div id="issue">
+			<li>Sensitive Data Expsoure</li>
+				<ul>
+					<li>Location: User Interface - notuber.js & index.html </li>
+					<li>Severity of Issue: Medium </li>
+					<li>Description of Issue: The user's username is hardcoded into the application. Although this information isn't as important as something like a credit card number, the hardcoding of the username would still allow a hacker to easily access and steal this information, and potentially impersonate the user</li>
+					<li>Proof of Vulnerability: <br/> <img src="DataExposure.png" alt="Data Exposure Proof"></li>
+					<li>Resolution: Usernames should be encrypted in order to protect user's indentities</li>
+				</ul>
+			</div>
+			<div id="issue">
+			<li>Lack of user input validation </li>
+				<ul>
+					<li>Location: In GET '/vehicle.json' </li>
+					<li>Severity of Issue: Low </li>
+					<li>Description of Issue: The application never checks the validity of the user input. Although there is low risk associated with this vulnerability, as the data is compared against a "whitelist", this still poses a security issue and other measurements should be put in place to ensure the validity of the input. </li>
+					<li>Proof of Vulnerability: <br/> <img src="UserInput.png" alt="Lack of User Input Validation Proof"></li>
+					<li>Resolution: User input should be validated by checking the length, characters, and format of the data before accepting the input as valid</li>
+				</ul>
+			</div>
+		</ol>
 	<h3> Conclusions </h3>
+		<p> Although this was very well designed and already included many attempts to validate user input and uphold general security, there are some issues that still present concerns before this app is fully safe to use. The only pressing concern is the unlimited access to CORS, however the other issues should also be fixed in order to present maximum security </p>
 	<h3> References </h3>
+		<p> <a href="https://www.owasp.org/index.php/Top_10_2013-Top_10"> OWASP 2013 Top 10 </a> </p>
+		<p> <a href="http://www.veracode.com/security/xss"> What is XSS? </a> </p>
+		<p> <a href="https://mobilejazz.com/blog/which-security-risks-do-cors-imply/"> Which Security Risks Do CORS Imply? </a> </p>
 </body>
 </html>
