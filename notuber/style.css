@@ -3,6 +3,10 @@
     width: 100%;
 }
 
+#intro {
+	position: center;
+}
+
 body {
     height: 100%;
     background-image: url('background.svg');
